@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :cryptocurrency_data, CryptocurrencyData.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "cryptocurrency_data_dev",
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  hostname: "database",
+  database: System.get_env("POSTGRES_DB"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

@@ -1,0 +1,54 @@
+version: '3'
+services:
+  cryptocurrency_data:
+    build:
+      context: ./cryptocurrency_data
+    ports:
+      - "4000:4000"
+    depends_on:
+      - database
+    environment:
+      - PORT = 4001
+      - DATABASE_URL
+      - SECRET_KEY_BASE
+
+  user:
+    build:
+      context: ./user
+    ports:
+      - "4001:4001"
+    depends_on:
+      - database
+    environment:
+      - PORT = 4002
+      - DATABASE_URL
+      - SECRET_KEY_BASE
+
+  alert:
+    build:
+      context: ./alert
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT = 4002
+      - DATABASE_URL
+      - SECRET_KEY_BASE
+
+  # cryptocurrency_tracker_frontend:
+  #   build:
+  #     context: ./cryptocurrency_tracker_frontend
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - cryptocurrency_data
+  #     - user
+  #     - alert
+
+  database:
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
